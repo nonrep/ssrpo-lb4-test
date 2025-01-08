@@ -3,6 +3,8 @@
 
 #include "hw/l4_InfrastructureLayer.h"
 
+#include <vector>
+
 const size_t MAX_NAME_LENGTH    = 50;
 const size_t MIN_YEAR_OF_BIRTH  = 1900;
 const size_t MAX_YEAR_OF_BIRTH  = 2019;
@@ -26,6 +28,7 @@ class Person : public ICollectable
 {
     std::string        _alias;
     std::vector<Visit> _visits;
+    mutable std::mutex _visits_mutex;
 
 protected:
     bool invariant() const;
@@ -41,8 +44,9 @@ public:
 
     const std::string & getAlias() const;
 
-    void setVisits(const std::vector<Visit> & visits);
-    const std::vector<Visit> &getVisists() const;
+    void setVisits(std::vector<Visit> visits);
+    void addVisit(const Visit & visit);
+    std::vector<Visit> getVisits() const;
 
     virtual bool   write(std::ostream& os) override;
 };
@@ -53,7 +57,7 @@ class ItemCollector: public ACollector
 public:
     virtual std::shared_ptr<ICollectable> read(std::istream& is) override;
 
-    Person & getPersonRef(size_t index);
+    Person & getPerson(size_t index);
 };
 
 #endif // HW_L3_DOMAIN_LAYER_H

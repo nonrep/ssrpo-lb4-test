@@ -1,8 +1,5 @@
 #include "hw/l3_DomainLayer.h"
 
-using namespace std;
-
-
 bool Person::invariant() const
 {
     return !_alias.empty();
@@ -14,34 +11,42 @@ Person::Person(const std::string & alias)
     assert(invariant());
 }
 
-Person::Person(const string &alias, std::vector<Visit> visits)
+Person::Person(const std::string &alias, std::vector<Visit> visits)
     : _alias(alias)
     , _visits(visits)
 {
     assert(invariant());
 }
 
-const string &Person::getAlias() const
+const std::string &Person::getAlias() const
 {
     return _alias;
 }
 
-void Person::setVisits(const std::vector<Visit> &visits)
+void Person::setVisits(const std::vector<Visit> visits)
 {
+    std::lock_guard locker(_visits_mutex);
     _visits = visits;
 }
 
-const std::vector<Visit> &Person::getVisists() const
+void Person::addVisit(const Visit & visit)
 {
+    std::lock_guard locker(_visits_mutex);
+    _visits.push_back(visit);
+}
+
+std::vector<Visit> Person::getVisits() const
+{
+    std::lock_guard locker(_visits_mutex);
     return _visits;
 }
 
-bool   Person::write(ostream& os)
+bool   Person::write(std::ostream& os)
 {
     writeString(os, _alias);
 
-    size_t visits_qount = _visits.size();
-    writeNumber(os, visits_qount);
+    size_t number_of_visits = _visits.size();
+    writeNumber(os, number_of_visits);
 
     for(const Visit & v : _visits)
     {
@@ -54,16 +59,15 @@ bool   Person::write(ostream& os)
 }
 
 
-
-shared_ptr<ICollectable> ItemCollector::read(istream& is)
+std::shared_ptr<ICollectable> ItemCollector::read(std::istream& is)
 {
-    string alias        = readString(is, MAX_NAME_LENGTH);
-    size_t visits_qount = readNumber<size_t>(is);
+    std::string alias       = readString(is, MAX_NAME_LENGTH);
+    size_t number_of_visits = readNumber<size_t>(is);
 
-    vector<Visit> v;
+    std::vector<Visit> v;
 
-    v.reserve(visits_qount);
-    for(size_t i=0; i < visits_qount; ++i)
+    v.reserve(number_of_visits);
+    for(size_t i=0; i < number_of_visits; ++i)
     {
         int year = readNumber<int>(is);
         int month = readNumber<int>(is);
@@ -72,14 +76,16 @@ shared_ptr<ICollectable> ItemCollector::read(istream& is)
         v.push_back(Visit(year, month, day));
     }
 
-    shared_ptr<ICollectable> p = std::make_shared<Person>(alias, v);
+    std::shared_ptr<ICollectable> p = std::make_shared<Person>(alias, v);
 
     return p;
 }
 
-Person &ItemCollector::getPersonRef(size_t index)
+Person & ItemCollector::getPerson(size_t index)
 {
-    Person & p = *static_cast<Person *>(getItem(index).get());
+    Person * p = static_cast<Person *>(getItem(index).get());
 
-    return p;
+    assert(p != nullptr);
+
+    return *p;
 }

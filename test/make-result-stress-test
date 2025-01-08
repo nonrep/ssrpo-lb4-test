@@ -8,7 +8,7 @@ do
     cat ${file} >> test/stress-test.out
     echo "--- Test --->" >> test/stress-test.out
     bin/stressgen < ${file} > test/stress-test-tmp.out
-    bin/lab < test/stress-test-tmp.out >> test/stress-test.out
+    bin/lab 1000 < test/stress-test-tmp.out >> test/stress-test.out
 done
 
 exit 0
