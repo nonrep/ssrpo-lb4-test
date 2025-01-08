@@ -1,0 +1,193 @@
+Start
+=== test/source/stressgen/sg01.test ===
+1
+2
+#10
+3
+4
+#
+5
+#10
+6
+#
+7
+--- Test --->
+1
+2
+3
+4
+3
+4
+3
+4
+3
+4
+3
+4
+3
+4
+3
+4
+3
+4
+3
+4
+3
+4
+5
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+7
+
+=== test/source/stressgen/sg02.test ===
+1
+2
+#10
+3 #i
+4
+#
+5
+#10
+6 #i #i
+#
+7
+--- Test --->
+1
+2
+3 0
+4
+3 1
+4
+3 2
+4
+3 3
+4
+3 4
+4
+3 5
+4
+3 6
+4
+3 7
+4
+3 8
+4
+3 9
+4
+5
+6 0 0
+6 1 1
+6 2 2
+6 3 3
+6 4 4
+6 5 5
+6 6 6
+6 7 7
+6 8 8
+6 9 9
+7
+
+=== test/source/stressgen/sg03.test ===
+1
+2
+#10
+3 #N #N
+4 #W #W
+#
+5
+#10
+6 #W#N
+#
+7
+--- Test --->
+1
+2
+3 384 887
+4 kWwdJWiE qkmGvAaN
+3 212 369
+4 rjLERBkP GVY
+3 168 394
+4 pnWsrwT LQkEWnfT
+3 957 874
+4 Uub haSgKt
+3 730 314
+4 DHqhjyVa GHaD
+3 179 789
+4 IfVfa T
+3 369 740
+4 jdU wxjESPPoCl
+3 653 757
+4 aj Wb
+3 445 620
+4 C KK
+3 772 482
+4 hZflFY MjypDQy
+5
+6 kkVlgylWef733
+6 jIYywl619
+6 bVhJEQetI765
+6 mcYk857
+6 SFg937
+6 AhjHbKpb276
+6 ZmNbQewIi819
+6 eJEgTFr539
+6 DyURVRv918
+6 UhBoj726
+7
+
+=== test/source/stressgen/sg04.test ===
+1
+#2
+2
+#3
+3
+#4
+4
+#
+#
+#
+5
+--- Test --->
+1
+2
+3
+4
+4
+4
+4
+3
+4
+4
+4
+4
+3
+4
+4
+4
+4
+2
+3
+4
+4
+4
+4
+3
+4
+4
+4
+4
+3
+4
+4
+4
+4
+5
+
